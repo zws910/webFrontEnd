@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>复选框全选/反选</title>
+    <style></style>
+
+    <script>
+        window.onload = function () {
+            var checkAll = document.getElementById("checkAll");
+            var checkReverse = document.getElementById("checkReverse");
+            var label = document.getElementsByTagName("label")[0];
+            var input = document.getElementsByTagName("input");
+
+            function isCheckAll() {
+                for (var i = 1, n = 0; i < input.length; i++) {
+                    input[i].checked && n++;
+                }
+                input[0].checked = n == input.length - 1;
+                label.innerHTML = input[0].checked ? "全不选" : "全选";
+            }
+
+            //全选/全不选
+            checkAll.onclick = function () {
+                for (var i = 1; i < input.length; i++) {
+                    input[i].checked = this.checked;
+                }
+                isCheckAll();
+            }
+
+            //反选
+            checkReverse.onclick = function () {
+                for (var i = 1; i < input.length; i++) {
+                    input[i].checked = !input[i].checked
+                }
+                isCheckAll();
+            }
+
+            // 根据复选个数更新全选框状态
+            for (var i = 1; i < input.length; i++) {
+                input[i].onclick = function () {
+                    isCheckAll();
+                }
+            }
+
+        }
+    </script>
+
+</head>
+
+<body>
+    <dl>
+        <dt><input type="checkbox" id="checkAll"><label>全选</label> <a href="javascript:" id="checkReverse"> 反选</a> </dt>
+
+        <dd>
+            <p><label><input type="checkbox">选项(一)</label></p>
+            <p><label><input type="checkbox">选项(二)</label></p>
+            <p><label><input type="checkbox">选项(三)</label></p>
+            <p><label><input type="checkbox">选项(四)</label></p>
+            <p><label><input type="checkbox">选项(五)</label></p>
+            <p><label><input type="checkbox">选项(六)</label></p>
+            <p><label><input type="checkbox">选项(七)</label></p>
+            <p><label><input type="checkbox">选项(八)</label></p>
+        </dd>
+
+    </dl>
+</body>
+
+</html>
