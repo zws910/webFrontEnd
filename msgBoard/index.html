@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>留言板</title>
+
+    <style>
+        *{margin: 0; padding: 0;}
+        .message{
+            width: 300px;
+            min-height: 500px;
+            border: 1px solid #333333;
+            padding: 10px;
+            background: #f0f0f0;
+            margin: 10px auto;
+            border-radius: 5px;                   
+            }
+        
+        input{
+            height: 20px;
+            padding: 0 5px;
+        }
+        
+        ul{
+            list-style: none;
+        }
+        
+        li{
+            font-size: 16px;
+            height: 20px;
+            text-indent: 10px;
+            margin-top: 10px;
+            line-height: 20px;
+            font-weight: bold;
+            color: #333333;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var oUl = document.getElementById("list");
+            var oLi = oUl.getElementsByTagName("li");
+            var oInput = document.getElementsByTagName("input");
+
+            function addMsg() {
+                var li = document.createElement("li");
+
+                //判断输入框是否输入内容
+                if (oInput[0].value) {
+                    li.innerHTML = oInput[0].value;
+                    li.onOff = true;  //这里onOff是自定义属性
+                    if (oUl.children[0]) {
+                        oUl.insertBefore(li, oUl.children[0]);
+                    } else {
+                        oUl.appendChild(li);
+                    };
+                } else {
+                    alert("请输入内容!");
+                }
+
+                //点击隔行变色
+                for (var i = 0; i < oLi.length; i++) {
+                    (function (j) {
+                        //鼠标移入颜色
+                        oLi[j].onmouseover = function () {
+                            this.style.background = "#999";
+                            this.style.color = "#fff";
+                        }
+
+                        //鼠标移出颜色消失
+                        oLi[j].onmouseout = function () {
+                            this.style.background = "";
+                            this.style.color = "";
+                        }
+
+                        oLi[j].onclick = function () {
+                            if (j % 2 == 0) {
+                                this.style.background = "pink";
+                                oLi[j].onmouseout = function () {
+                                    this.style.background = "pink";
+                                }
+                            } else {
+                                this.style.background = "#3c9";
+                                oLi[j].onmouseout = function () {
+                                    this.style.background = "#3c9";
+                                }
+                            }
+                            this.onOff = !this.onOff;
+                        }
+                    })(i);
+                }
+
+                // 清空文本框信息
+                oInput[0].value = "";
+
+            };
+
+
+
+            // 按下回车键发送消息
+            oInput[0].onkeyup = function (ev) {
+                var ev = ev || event;
+                if (this.value != "") {
+                    // 检测是否按下Enter键
+                    if (ev.keyCode == 13) {
+                        addMsg();
+                    }
+                }
+            }
+
+            // 按下留言按钮发送消息
+            oInput[1].onclick = addMsg;
+
+            // 批量删除
+            oInput[2].onclick = function () {
+                for (var i = 0; i < oLi.length; i++) {
+                    if (!oLi.onOff) {
+                        oUl.removeChild(oLi[i]);
+                        i--;  //动态的改变了li的长度
+                    }
+                }
+            }
+
+        }
+
+    </script>
+
+
+</head>
+
+<body>
+    <div class="message">
+        <input type="text" name="" id="">
+        <input type="button" value="留言">
+        <input type="button" value="批量删除">
+        <ul id="list"></ul>
+    </div>
+
+
+</body>
+
+</html>
